@@ -14,13 +14,10 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { useNavigation } from "@react-navigation/native";
 
-const Login = () => {
+const Login = ({ navigation }) => {
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
-
-  const navigation = useNavigation();
 
   useEffect(() => {
     const auth = getAuth();
@@ -38,7 +35,6 @@ const Login = () => {
         });
       }
     });
-
     return unsubsscribe;
   }, []);
 
@@ -58,7 +54,7 @@ const Login = () => {
         });
       })
       .catch((error) => {
-        console.log(error.message);
+        alert(error.message);
       });
   };
 

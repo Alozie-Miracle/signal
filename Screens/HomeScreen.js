@@ -13,10 +13,10 @@ import { getAuth, signOut } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 
 import { PencilIcon, CameraIcon } from "react-native-heroicons/outline";
-import { db } from "../firebase";
+import { db } from "../App";
 
 const HomeScreen = ({ navigation, route }) => {
-  const [data, setData] = useState([]);
+  const [chats, setChats] = useState([]);
   const auth = getAuth();
 
   const signout = () => {
@@ -68,22 +68,40 @@ const HomeScreen = ({ navigation, route }) => {
   useEffect(() => {
     const getChat = async () => {
       const querySnapshot = await getDocs(collection(db, "chat"));
+      const fetchedChats = [];
+
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        setData(doc.data());
+        fetchedChats.push({
+          id: doc.id,
+          ...doc.data(),
+        });
       });
+
+      setChats(fetchedChats);
+      // console.log(chats); // This will show the previous state, not the updated state
     };
 
-    return getChat;
-  }, []);
+    getChat();
+  }, [navigation, chats]);
+
+  const enterChat = (id, chatName) => {
+    navigation.navigate("Chat", {
+      id,
+      chatName,
+    });
+  };
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        {/* {data.map(({ id, chatName }) => (
-        ))} */}
-        <CustomListItem />
+      <ScrollView style={styles.container}>
+        {chats.map(({ id, chatName }) => (
+          <CustomListItem
+            chatName={chatName}
+            id={id}
+            key={id}
+            enterChat={enterChat}
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );
@@ -91,4 +109,9 @@ const HomeScreen = ({ navigation, route }) => {
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    height: "100%",
+    backgroundColor: "white",
+  },
+});

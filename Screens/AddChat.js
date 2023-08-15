@@ -1,3 +1,5 @@
+/* eslint-disable import/no-cycle */
+
 import {
   StyleSheet,
   Text,
@@ -9,7 +11,7 @@ import React, { useLayoutEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { ChatBubbleLeftRightIcon } from "react-native-heroicons/outline";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../App";
 
 const AddChat = ({ navigation }) => {
   const [chatName, setChatName] = useState("");
@@ -23,7 +25,6 @@ const AddChat = ({ navigation }) => {
 
   const addchat = async () => {
     if (chatName.length === 0) return;
-
     await addDoc(collection(db, "chat"), {
       chatName: chatName,
     })
