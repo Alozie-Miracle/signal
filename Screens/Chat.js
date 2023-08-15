@@ -12,7 +12,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   PaperAirplaneIcon,
   PhoneIcon,
@@ -38,6 +38,8 @@ const Chat = ({ navigation, route }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const auth = getAuth();
+
+  const scrollViewRef = useRef();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -124,7 +126,12 @@ const Chat = ({ navigation, route }) => {
 
       // Clear the input field after sending the message
       setInput("");
+
+      // Scroll to the end of the ScrollView
+      scrollViewRef.current.scrollToEnd({ animated: true });
     }
+
+    return;
   };
 
   return (
@@ -137,7 +144,11 @@ const Chat = ({ navigation, route }) => {
       >
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <>
-            <ScrollView>
+            <ScrollView
+              ref={scrollViewRef}
+              contentContainerStyle={{ flexGrow: 1 }}
+              inverted
+            >
               {messages.map((message) => (
                 <View
                   key={message.id}
