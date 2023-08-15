@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 20,
+    alignItems: "center",
     backgroundColor: "white",
   },
   header: {
@@ -85,6 +86,7 @@ const styles = StyleSheet.create({
     borderColor: "#2C68ED",
     fontSize: 20,
     flex: 1,
+    width: 500,
   },
   buttonLogin: {
     backgroundColor: "#2C68ED",
@@ -94,6 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginVertical: 15,
     borderRadius: 8,
+    width: 300,
   },
   loginText: {
     color: "white",

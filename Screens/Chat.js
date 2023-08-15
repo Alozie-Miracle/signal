@@ -105,7 +105,9 @@ const Chat = ({ navigation, route }) => {
     };
 
     fetchMessages();
-  }, [route.params.id, input, messages]);
+
+    return fetchMessages;
+  }, [route.params.id, messages]);
 
   // Re-run when route.params.id changes
 
